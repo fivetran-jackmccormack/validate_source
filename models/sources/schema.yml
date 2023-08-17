@@ -1,0 +1,44 @@
+
+version: 2
+
+models:
+  - name: validate_facebook
+    description: "Model downstream of validating schema,"
+    post-hook: 
+    columns:
+      - name: table_name
+        description: "The primary key for this table"
+        tests:
+          - unique
+      - name: table_schema
+        description: "The schema of this table"
+  - name: validate_google
+    description: "Model downstream of validating schema,"
+    post-hook: 
+    columns:
+      - name: table_name
+        description: "The primary key for this table"
+        tests:
+          - unique
+      - name: table_schema
+        description: "The schema of this table"
+  - name: validate_shopify
+    description: "Model downstream of validating schema,"
+    post-hook: 
+    columns:
+      - name: table_name
+        description: "The primary key for this table"
+        tests:
+          - unique
+      - name: table_schema
+        description: "The schema of this table"
+  - name: validate_tiktok
+    description: "Model downstream of validating schema,"
+    post-hook: 
+    columns:
+      - name: table_name
+        description: "The primary key for this table"
+        tests:
+          - unique
+      - name: table_schema
+        description: "The schema of this table"
