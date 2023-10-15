@@ -1,4 +1,4 @@
-{% macro validate_tables(goldenSchema, tablePattern, sourcePattern, excludeSchemas, excludeTables, refreshGolden, executionMode) %}
+{% macro validate_tables(goldenSchema, tablePattern, sourcePattern, excludeSchemas, excludeTables, refreshGolden, executionMode, goldenData) %}
     {{ log("start source: " ~ sourcePattern) }}
     {# /* Set the full golden schema, source pattern without the wildcard + golden schema */ #}
     {% set fullGoldenSchema = sourcePattern[:-1] + goldenSchema %}
@@ -32,8 +32,14 @@
                 {{ log("Creating schema : " ~ fullGoldenSchema) }}
             {% endif %}
             {# /* Create the union query by joining all relations for the specific table,
-            where clause always false to only take structure and not rows */ #}
-            {% set unionQuery = dbt_utils.union_relations(relations=relationsList, source_column_name=none, where="1=0") %}
+            if goldenData is true then no where clause, so data will be joined,
+            if goldenData is false then add where clause which is always false to only take structure and not rows */ #}
+            {% if goldenData %}
+                {% set unionQuery = dbt_utils.union_relations(relations=relationsList) %}
+            {% else %}
+                {% set unionQuery = dbt_utils.union_relations(relations=relationsList, source_column_name=none, where="1=0") %}
+            {% endif %}
+
             {# /* Create the golden table based on the superset of columns created above */ #}
             {% set query %}
                     CREATE OR REPLACE TABLE `{{fullGoldenSchema}}.{{tableName}}` AS SELECT * FROM {{unionQuery}} limit 1 ;
