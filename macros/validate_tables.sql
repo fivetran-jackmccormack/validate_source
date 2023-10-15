@@ -42,7 +42,7 @@
 
             {# /* Create the golden table based on the superset of columns created above */ #}
             {% set query %}
-                    CREATE OR REPLACE TABLE `{{fullGoldenSchema}}.{{tableName}}` AS SELECT * FROM {{unionQuery}} limit 1 ;
+                    CREATE OR REPLACE TABLE `{{fullGoldenSchema}}.{{tableName}}` AS SELECT * FROM {{unionQuery}};
             {% endset %}
             {% do run_query(query) %}
             {{ log("Running create golden table query: " ~ query)}}
