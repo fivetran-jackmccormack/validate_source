@@ -1,4 +1,4 @@
-# Full Documentation [Here]([url](https://community.fivetran.com/t5/user-group-for-dbt/dynamically-enforcing-a-unified-schema-across-many-schemas/m-p/1326/)) #
+# Full Documentation [Here](https://community.fivetran.com/t5/user-group-for-dbt/dynamically-enforcing-a-unified-schema-across-many-schemas/m-p/1326/) #
 
 ## Adding a New Source to Source Validation ##
 
