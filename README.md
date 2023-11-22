@@ -86,6 +86,15 @@ _Sample Exclude Table List_
 {% set excludeTables = ["fivetran_audit"] %}
 ```
 
+### Exclude Columns ###
+These are columns you specifically wish to exclude, sometimes you have specific columns that you do not wish to include in the validation process.
+When using goldenData as true we suggest that you always exclude the “_dbt_source_relation” column, and then define other exclusions on a source by source basis.
+
+_Sample Exclude Column List_
+```sql
+{% set excludeTables = ["_dbt_source_relation"] %}
+```
+
 ### Refresh Golden ###
 The process of unioning all tables for each source type and customer can take a little while, and it only actually needs to be run the first time, or whenever you modify your downstream models and need to add in a new value to your source validation that wasn’t previously validated.
 Whenever this occurs you will need to drop the relevant source_ft_golden tables and set this flag to true for a single run, to perform a full refresh of the golden tables for this source, and then reset it to false to save on execution time for future model runs.
