@@ -7,7 +7,7 @@
 
         {# /* alter table to add missing columns */ #}
         {% for col in adapter.get_missing_columns(goldenRelation, relation) %}
-            {% if col not in excludeColumns %}
+            {% if col.name not in excludeColumns %}
                 {% set query %}
                     ALTER TABLE `{{relation.schema}}.{{relation.table}}` add column `{{col.name}}` {{col.data_type}};
                 {% endset %}
