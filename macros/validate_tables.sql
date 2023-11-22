@@ -1,4 +1,4 @@
-{% macro validate_tables(goldenSchema, tablePattern, sourcePattern, excludeSchemas, excludeTables, refreshGolden, executionMode, goldenData) %}
+{% macro validate_tables(goldenSchema, tablePattern, sourcePattern, excludeSchemas, excludeTables, excludeColumns, refreshGolden, executionMode, goldenData) %}
     {{ log("start source: " ~ sourcePattern) }}
     {# /* Set the full golden schema, source pattern without the wildcard + golden schema */ #}
     {% set fullGoldenSchema = sourcePattern[:-1] + goldenSchema %}
@@ -67,7 +67,7 @@
             {% if filteredList|length > 0 %}
                 {# /* Table exists, validate columns */ #}
                 {% set customerRelation = filteredList[0] %}
-                {{ validate_columns(customerRelation, goldRelation, executionMode) }}
+                {{ validate_columns(customerRelation, goldRelation, excludeColumns, executionMode) }}
             {% else %}
                 {# /* Table doesn't exist, create the table using golden customers table structure */ #}
                 {% set query %}
@@ -79,6 +79,18 @@
                 {% else %}
                     {{ log("Would run create table query: " ~ query)}}
                 {% endif %}
+                {# /* Drop any columns that are excluded */ #}
+                {% for col in excludeColumns %}
+                    {% set dropQuery %}
+                        ALTER TABLE `{{customer}}.{{tableKey}}` DROP COLUMN `{{col}}`;
+                    {% endset %}
+                    {% if executionMode %}
+                        {% do run_query(dropQuery) %}
+                        {{ log("Running drop column query: " ~ dropQuery)}}
+                    {% else %}
+                        {{ log("Would run drop column query: " ~ dropQuery)}}
+                    {% endif %}
+                {% endfor %}
             {% endif %}
         {% endfor %}
     {% endfor %}
