@@ -1,4 +1,4 @@
-# Full Documentation Here #
+# Full Documentation [Here](https://community.fivetran.com/t5/user-group-for-dbt/dynamically-enforcing-a-unified-schema-across-many-schemas/m-p/1326/) #
 
 ## Adding a New Source to Source Validation ##
 
@@ -84,6 +84,15 @@ We suggest that you always exclude the “fivetran_audit” table, and then defi
 _Sample Exclude Table List_
 ```sql
 {% set excludeTables = ["fivetran_audit"] %}
+```
+
+### Exclude Columns ###
+These are columns you specifically wish to exclude, sometimes you have specific columns that you do not wish to include in the validation process.
+When using goldenData as true we suggest that you always exclude the “_dbt_source_relation” column, and then define other exclusions on a source by source basis.
+
+_Sample Exclude Column List_
+```sql
+{% set excludeColumns = ["_dbt_source_relation"] %}
 ```
 
 ### Refresh Golden ###
