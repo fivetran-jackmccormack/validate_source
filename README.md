@@ -92,7 +92,7 @@ When using goldenData as true we suggest that you always exclude the “_dbt_sou
 
 _Sample Exclude Column List_
 ```sql
-{% set excludeTables = ["_dbt_source_relation"] %}
+{% set excludeColumns = ["_dbt_source_relation"] %}
 ```
 
 ### Refresh Golden ###
